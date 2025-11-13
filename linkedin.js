@@ -62,6 +62,7 @@
       "article",
       "div.occludable-update",
       "div.feed-shared-update-v2",
+      "div.feed-shared-update-v2__control-menu-container",
       "div.feed-shared-update",
       "div.update-components-card",
     ].join(","));
@@ -92,6 +93,11 @@
     try {
       if (isSponsored(node)) {
         node.classList.add(HIDDEN_CLASS);
+        // Also hide the parent container to ensure the entire post is hidden
+        const parentContainer = node.closest("div.feed-shared-update-v2__control-menu-container, div.occludable-update, div.feed-shared-update-v2");
+        if (parentContainer && parentContainer !== node) {
+          parentContainer.classList.add(HIDDEN_CLASS);
+        }
         incBadge();
       }
     } catch (_) { }
@@ -197,7 +203,7 @@
       for (const node of m.addedNodes) {
         if (!(node instanceof HTMLElement)) continue;
 
-        if (node.matches && node.matches("article, div.occludable-update, div.feed-shared-update-v2, div.feed-shared-update, div.update-components-card")) {
+        if (node.matches && node.matches("article, div.occludable-update, div.feed-shared-update-v2, div.feed-shared-update-v2__control-menu-container, div.feed-shared-update, div.update-components-card")) {
           toScan.add(node);
         } else {
           getPostContainers(node).forEach(n => toScan.add(n));
