@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         LinkedIn - Hide Promoted Posts (+ Hide Games, Toggle, Counter)
 // @namespace    ivan.li.tm
-// @version      1.3.2
-// @description  Nasconde i post sponsorizzati e il box "Today’s puzzle games" su LinkedIn, con toggle (H) e contatore
+// @version      1.4.0
+// @description  Nasconde i post sponsorizzati, il box "Today's puzzle games", i post dei gruppi con pulsante "Join" su LinkedIn, con toggle (H) e contatore
 // @author       you
 // @match        https://www.linkedin.com/*
 // @run-at       document-idle
@@ -180,6 +180,48 @@
     }
   }
 
+  // ====== HIDE GROUP POSTS WITH "JOIN" BUTTON ======
+  function hideGroupJoinPosts(root = document) {
+    let hiddenSomething = false;
+
+    // 1) Direct selection by Join button classes
+    const joinButtons = root.querySelectorAll([
+      'button.update-components-actor__join-button',
+      'button[class*="join-button"]',
+      'button[aria-label*="Join"]'
+    ].join(","));
+
+    joinButtons.forEach(button => {
+      const txt = (button.textContent || "").trim().toLowerCase();
+      if (txt === "join" || txt.includes("join")) {
+        // Find the post container
+        const postContainer = button.closest("div.feed-shared-update-v2__control-menu-container, div.occludable-update, div.feed-shared-update-v2");
+        if (postContainer && !postContainer.classList.contains(HIDDEN_NOISE_CLASS)) {
+          postContainer.classList.add(HIDDEN_NOISE_CLASS);
+          hiddenSomething = true;
+        }
+      }
+    });
+
+    // 2) Fallback: search for buttons with "Join" text
+    const allButtons = root.querySelectorAll('button');
+    for (const button of allButtons) {
+      const txt = (button.textContent || "").replace(/\s+/g, " ").trim().toLowerCase();
+      if (txt === "join" && button.closest("div.feed-shared-update-v2__control-menu-container")) {
+        const postContainer = button.closest("div.feed-shared-update-v2__control-menu-container, div.occludable-update, div.feed-shared-update-v2");
+        if (postContainer && !postContainer.classList.contains(HIDDEN_NOISE_CLASS)) {
+          postContainer.classList.add(HIDDEN_NOISE_CLASS);
+          hiddenSomething = true;
+        }
+      }
+    }
+
+    if (hiddenSomething) {
+      // eslint-disable-next-line no-console
+      console.debug("[TM] Hidden group posts with Join button.");
+    }
+  }
+
   // ====== TOGGLE (H) ======
   document.addEventListener("keydown", (e) => {
     if (e.key.toLowerCase() === "h") {
@@ -193,12 +235,14 @@
   scan();
   hideGamesModule();
   hidePremiumUpsell();
+  hideGroupJoinPosts();
 
   // ====== OBSERVER ======
   const observer = new MutationObserver(muts => {
     const toScan = new Set();
     const toGames = new Set();
     const toPremium = new Set();
+    const toGroupJoin = new Set();
     for (const m of muts) {
       for (const node of m.addedNodes) {
         if (!(node instanceof HTMLElement)) continue;
@@ -210,18 +254,20 @@
         }
         toGames.add(node);
         toPremium.add(node);
+        toGroupJoin.add(node);
       }
     }
-    if (toScan.size || toGames.size || toPremium.size) {
+    if (toScan.size || toGames.size || toPremium.size || toGroupJoin.size) {
       requestAnimationFrame(() => {
         toScan.forEach(processPost);
         toGames.forEach(n => hideGamesModule(n));
         toPremium.forEach(n => hidePremiumUpsell(n));
+        toGroupJoin.forEach(n => hideGroupJoinPosts(n));
       });
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
 
   // ====== SAFETY RESCAN ======
-  setInterval(() => { scan(); hideGamesModule(); hidePremiumUpsell(); }, 4000);
+  setInterval(() => { scan(); hideGamesModule(); hidePremiumUpsell(); hideGroupJoinPosts(); }, 4000);
 })();
