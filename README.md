@@ -20,6 +20,24 @@ A collection of user scripts for Tampermonkey to enhance your browsing experienc
 
 ---
 
+### AdMob GBP to EUR Converter with Percentage Improvement
+**File:** `admob-gbp-to-eur.js`
+**Version:** 1.1.0
+**Match:** `https://admob.google.com/*`
+**Description:** Converts all British Pound (£) amounts to Euro (€) on AdMob dashboard using current exchange rate and displays month-over-month percentage improvements
+
+**Features:**
+- Automatically converts all £ amounts to € on AdMob pages
+- Fetches current GBP to EUR exchange rate from API
+- Caches exchange rate for 24 hours to reduce API calls
+- Updates dynamically as page content changes
+- Handles various formats (£1.23, £1,234.56, GBP 1.23, etc.)
+- Calculates and displays percentage improvement from last month to this month
+- Shows percentage change as a colored badge (green for positive, red for negative)
+- Preserves page structure and functionality
+
+---
+
 ### Giphy GIF Downloader
 **File:** `giphy-downloader.js`
 **Version:** 1.5
