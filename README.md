@@ -38,6 +38,20 @@ A collection of user scripts for Tampermonkey to enhance your browsing experienc
 
 ---
 
+### YouTube - Hide Shorts Everywhere
+**File:** `youtube-hide-shorts.js`
+**Version:** 1.0.0
+**Match:** `https://www.youtube.com/*`
+**Description:** Hides all Shorts surfaces on YouTube desktop web (home, search, subscriptions, channels, and guide)
+
+**Features:**
+- Hides Shorts shelves and carousels
+- Hides Shorts videos in grids and lists
+- Hides Shorts guide entries, sidebar link, and channel tabs
+- Handles dynamic SPA updates
+
+---
+
 ### Giphy GIF Downloader
 **File:** `giphy-downloader.js`
 **Version:** 1.5
