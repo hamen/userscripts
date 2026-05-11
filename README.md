@@ -15,6 +15,7 @@ A collection of user scripts for [Tampermonkey](https://www.tampermonkey.net/) t
 | 3 | [YouTube - Hide Shorts](#-youtube---hide-shorts-everywhere) | ![YouTube](https://img.shields.io/badge/youtube-%23FF0000.svg?style=flat-square&logo=youtube&logoColor=white) |
 | 4 | [GitHub Issues Kanban](#-github-issues-kanban-read-only) | ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=flat-square&logo=github&logoColor=white) |
 | 5 | [Giphy GIF Downloader](#-giphy-gif-downloader) | ![Giphy](https://img.shields.io/badge/giphy-FF6666?style=flat-square&logo=giphy&logoColor=white) |
+| 6 | [HEY - Trash / Feed / Paper Trail in Power Through](#-hey---trash--feed--paper-trail-in-power-through) | ![HEY](https://img.shields.io/badge/hey-111111?style=flat-square&logoColor=white) |
 
 ---
 
@@ -116,6 +117,21 @@ A collection of user scripts for [Tampermonkey](https://www.tampermonkey.net/) t
 
 ---
 
+### ![HEY](https://img.shields.io/badge/hey-111111?style=flat-square&logoColor=white) HEY - Trash / Feed / Paper Trail in Power Through
+**File:** `hey-moar-power-through-new.js`
+**Version:** 1.2.1
+**Match:** `https://app.hey.com/*`
+**Description:** Adds Move to Paper Trail (P), Move to The Feed (F), and Trash (T) buttons to HEY's Power Through New.
+
+**Features:**
+- Adds Paper, Feed, and Trash buttons to each Power Through item
+- Supports `P`, `F`, and `T` keyboard shortcuts
+- Uses HEY's existing CSRF-protected endpoints to move or trash topics
+- Removes processed items from the view immediately
+- Handles Turbo page updates and newly loaded Power Through items
+
+---
+
 ## Installation
 
 1. Install the [Tampermonkey](https://www.tampermonkey.net/) extension for your browser
@@ -127,7 +143,3 @@ A collection of user scripts for [Tampermonkey](https://www.tampermonkey.net/) t
 ## Usage
 
 After installation, scripts will automatically run on their target websites. Check individual script files for specific features and keyboard shortcuts.
-
-## Contributing
-
-Feel free to add more scripts or improve existing ones!
